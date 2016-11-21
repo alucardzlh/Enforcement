@@ -1,5 +1,8 @@
 package com.zhirongkeji.enforcement.Activitys;
 
+import android.bluetooth.BluetoothAdapter;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -9,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -18,9 +22,19 @@ import com.zhirongkeji.enforcement.Fragments.SearchFragment;
 import com.zhirongkeji.enforcement.Fragments.TodoFragment;
 import com.zhirongkeji.enforcement.Fragments.UserFragment;
 import com.zhirongkeji.enforcement.R;
+import com.zhirongkeji.enforcement.Services.BluetoothService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.zhirongkeji.enforcement.Fragments.TodoFragment.DEVICE_NAME;
+import static com.zhirongkeji.enforcement.Fragments.TodoFragment.MESSAGE_DEVICE_NAME;
+import static com.zhirongkeji.enforcement.Fragments.TodoFragment.MESSAGE_READ;
+import static com.zhirongkeji.enforcement.Fragments.TodoFragment.MESSAGE_STATE_CHANGE;
+import static com.zhirongkeji.enforcement.Fragments.TodoFragment.MESSAGE_TOAST;
+import static com.zhirongkeji.enforcement.Fragments.TodoFragment.MESSAGE_WRITE;
+import static com.zhirongkeji.enforcement.Fragments.TodoFragment.TOAST;
+import static com.zhirongkeji.enforcement.Fragments.TodoFragment.mConnectedDeviceName;
 
 /**
  *
@@ -43,6 +57,7 @@ public class MainActivity extends FragmentActivity {
     private List<Fragment> Fragments;
     private FragmentPagerAdapter FPadapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +65,11 @@ public class MainActivity extends FragmentActivity {
         ViewUtils.inject(this);
         mViewPager.setCurrentItem(0);
         initView();
+        initControl();
+    }
+
+    private void initControl() {
+
     }
 
     private void initView() {
@@ -143,4 +163,6 @@ public class MainActivity extends FragmentActivity {
                 break;
         }
     }
+
+
 }

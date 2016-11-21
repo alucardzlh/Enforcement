@@ -1,7 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/yellow">
+    android:background="@color/yellow"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/huiwhite"
+            android:gravity="top|left"
+            android:hint="表单数据信息" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="走纸" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="打印" />
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="连接设备" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </LinearLayout>
