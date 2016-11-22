@@ -22,8 +22,8 @@ public class UserFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+       View v=inflater.inflate(R.layout.user_fragment,container,false);
 
-
-        return inflater.inflate(R.layout.user_fragment,container,false);
+        return v;
     }
 }

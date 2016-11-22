@@ -2,4 +2,12 @@
     <string name="app_name">Enforcement</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
+
+
+    <!--Fragment4 界面-->
+    <string name="my_gerenziliao">个人资料</string>
+    <string name="my_daiban">待办任务</string>
+    <string name="my_wanchen">完成任务</string>
+    <string name="my_about">关于我们</string>
+    <string name="my_fankui">意见反馈</string>
 </resources>

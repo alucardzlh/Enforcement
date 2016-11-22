@@ -34,6 +34,14 @@ import android.util.Log;
 import com.zhirongkeji.enforcement.Activitys.MainActivity;
 import com.zhirongkeji.enforcement.Fragments.TodoFragment;
 
+import static com.zhirongkeji.enforcement.Activitys.MainActivity.DEVICE_NAME;
+import static com.zhirongkeji.enforcement.Activitys.MainActivity.MESSAGE_DEVICE_NAME;
+import static com.zhirongkeji.enforcement.Activitys.MainActivity.MESSAGE_READ;
+import static com.zhirongkeji.enforcement.Activitys.MainActivity.MESSAGE_STATE_CHANGE;
+import static com.zhirongkeji.enforcement.Activitys.MainActivity.MESSAGE_TOAST;
+import static com.zhirongkeji.enforcement.Activitys.MainActivity.MESSAGE_WRITE;
+import static com.zhirongkeji.enforcement.Activitys.MainActivity.TOAST;
+
 /**
  * This class does all the work for setting up and managing Bluetooth
  * connections with other devices. It has a thread that listens for
@@ -163,10 +171,10 @@ public class BluetoothService {
      * @param context  The UI Activity Context
      * @param handler  A Handler to send messages back to the UI Activity
      */
-    public BluetoothService(TodoFragment context, Handler handler) {
+    public BluetoothService(Context context, Handler handler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
-        this.context=context.getContext();
+        this.context=context;
         mHandler = handler;
     }
 
@@ -179,7 +187,7 @@ public class BluetoothService {
         mState = state;
 
         // Give the new state to the Handler so the UI Activity can update
-        mHandler.obtainMessage(TodoFragment.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
+        mHandler.obtainMessage(MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
     }
 
     /**
@@ -251,9 +259,9 @@ public class BluetoothService {
         mConnectedThread.start();
 
         // Send the name of the connected device back to the UI Activity
-        Message msg = mHandler.obtainMessage(TodoFragment.MESSAGE_DEVICE_NAME);
+        Message msg = mHandler.obtainMessage(MESSAGE_DEVICE_NAME);
         Bundle bundle = new Bundle();
-        bundle.putString(TodoFragment.DEVICE_NAME, device.getName());
+        bundle.putString(DEVICE_NAME, device.getName());
         msg.setData(bundle);
         mHandler.sendMessage(msg);
 
@@ -295,9 +303,9 @@ public class BluetoothService {
         setState(STATE_LISTEN);
         
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(TodoFragment.MESSAGE_TOAST);
+        Message msg = mHandler.obtainMessage(MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(TodoFragment.TOAST, "Unable to connect device");
+        bundle.putString(TOAST, "Unable to connect device");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
     }
@@ -309,9 +317,9 @@ public class BluetoothService {
         //setState(STATE_LISTEN);
  
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(TodoFragment.MESSAGE_TOAST);
+        Message msg = mHandler.obtainMessage(MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(TodoFragment.TOAST, "Device connection was lost");
+        bundle.putString(TOAST, "Device connection was lost");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
     }
@@ -495,7 +503,7 @@ public class BluetoothService {
                     if(bytes>0)
                     {
 	                    // Send the obtained bytes to the UI Activity
-	                    mHandler.obtainMessage(TodoFragment.MESSAGE_READ, bytes, -1, buffer)
+	                    mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
 	                            .sendToTarget();
                     }
                     else
@@ -536,7 +544,7 @@ public class BluetoothService {
                 mmOutStream.write(buffer);
 
                 // Share the sent message back to the UI Activity
-                mHandler.obtainMessage(TodoFragment.MESSAGE_WRITE, -1, -1, buffer)
+                mHandler.obtainMessage(MESSAGE_WRITE, -1, -1, buffer)
                         .sendToTarget();
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);

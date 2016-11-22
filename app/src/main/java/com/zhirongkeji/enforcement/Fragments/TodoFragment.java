@@ -1,6 +1,8 @@
 package com.zhirongkeji.enforcement.Fragments;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -25,6 +28,9 @@ import com.zhirongkeji.enforcement.Utils.PicFromPrintUtils;
 import java.io.UnsupportedEncodingException;
 
 import static android.R.attr.button;
+import static com.zhirongkeji.enforcement.Activitys.MainActivity.REQUEST_CONNECT_DEVICE;
+import static com.zhirongkeji.enforcement.Activitys.MainActivity.REQUEST_ENABLE_BT;
+import static com.zhirongkeji.enforcement.Activitys.MainActivity.mBluetoothAdapter;
 
 /**
  * Created by zhirongkeji on 2016/11/19.
@@ -33,33 +39,22 @@ import static android.R.attr.button;
  */
 
 public class TodoFragment extends Fragment implements View.OnClickListener {
-    // Message types sent from the BluetoothService Handler
-    public static final int MESSAGE_STATE_CHANGE = 1;
-    public static final int MESSAGE_READ = 2;
-    public static final int MESSAGE_WRITE = 3;
-    public static final int MESSAGE_DEVICE_NAME = 4;
-    public static final int MESSAGE_TOAST = 5;
 
-    // Key names received from the BluetoothService Handler
-    public static final String DEVICE_NAME = "device_name";
-    public static final String TOAST = "toast";
 
-    // Intent request codes
-    private static final int REQUEST_CONNECT_DEVICE = 1;
-    private static final int REQUEST_ENABLE_BT = 2;
-    // Local Bluetooth adapter
-    private BluetoothAdapter mBluetoothAdapter = null;
+
+
     // Member object for the services
     public static BluetoothService mService = null;
     // Name of the connected device
     public static String mConnectedDeviceName = null;
-    Button submit,go,link;
+    public static Button submit, go, link;
+    private EditText info;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.todo_fragment, container, false);
+        View v = inflater.inflate(R.layout.todo_fragment, container, false);
         // Get local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -69,9 +64,10 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
             //finish();
             //return;
         }
-        submit= (Button) v.findViewById(R.id.submit);
-        go= (Button) v.findViewById(R.id.go);
-        link= (Button) v.findViewById(R.id.link);
+        submit = (Button) v.findViewById(R.id.submit);
+        go = (Button) v.findViewById(R.id.go);
+        link = (Button) v.findViewById(R.id.link);
+        info= (EditText) v.findViewById(R.id.info);
         submit.setOnClickListener(this);
         go.setOnClickListener(this);
         link.setOnClickListener(this);
@@ -79,69 +75,10 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
         return v;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!mBluetoothAdapter.isEnabled()) {
-            //打开蓝牙
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-        }
-        if (mService == null) {
-            mService = new BluetoothService(this, mHandler);
-        }
-    }
-
-    // The Handler that gets information back from the BluetoothService
-    public final Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MESSAGE_STATE_CHANGE:
-                    switch (msg.arg1) {
-                        case BluetoothService.STATE_CONNECTED:
-                            //print_connect_btn.setText("已连接:");
-                            Toast.makeText(getContext(), "蓝牙已连接" + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
-                            //print_connect_btn.append(mConnectedDeviceName);
-                            break;
-                        case BluetoothService.STATE_CONNECTING:
-                            //print_connect_btn.setText("正在连接...");
-                            link.setText("正在连接...");
-                            break;
-                        case BluetoothService.STATE_LISTEN:
-                        case BluetoothService.STATE_NONE:
-                            //print_connect_btn.setText("无连接");
-                            link.setText("无连接");
-                            break;
-                    }
-                    break;
-                case MESSAGE_WRITE:
-                    //byte[] writeBuf = (byte[]) msg.obj;
-                    // construct a string from the buffer
-                    //String writeMessage = new String(writeBuf);
-                    break;
-                case MESSAGE_READ:
-                    //byte[] readBuf = (byte[]) msg.obj;
-                    // construct a string from the valid bytes in the buffer
-                    //String readMessage = new String(readBuf, 0, msg.arg1);
-                    break;
-                case MESSAGE_DEVICE_NAME:
-                    // save the connected device's name
-                    mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
-                    Toast.makeText(getContext(), "连接至"
-                            + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
-                    break;
-                case MESSAGE_TOAST:
-                    Toast.makeText(getContext(), msg.getData().getString(TOAST),
-                            Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        }
-    };
-
 
     /**
      * 打印
+     *
      * @param message
      */
     private void sendMessage(String message) {
@@ -192,21 +129,49 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit:
-                if(TextUtils.isEmpty(submit.getText())){
-                    Toast.makeText(getContext(),"无打印信息",Toast.LENGTH_SHORT).show();
-                }else {
-                    sendMessage(submit.getText().toString()+"\n"+"\n"+"\n"+"\n");
+                if (TextUtils.isEmpty(submit.getText())) {
+                    Toast.makeText(getContext(), "无打印信息", Toast.LENGTH_SHORT).show();
+                } else {
+                    sendMessage(info.getText().toString() + "\n" + "\n" + "\n" + "\n");
                 }
                 break;
             case R.id.go:
                 sendMessage("\n");
                 break;
             case R.id.link:
-                startActivityForResult(new Intent(getActivity(), DeviceListActivity.class),REQUEST_CONNECT_DEVICE);
+                startActivityForResult(new Intent(getActivity(), DeviceListActivity.class), REQUEST_CONNECT_DEVICE);
                 break;
             default:
                 break;
         }
 
+    }
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CONNECT_DEVICE:
+                // When DeviceListActivity returns with a device to connect
+                if (resultCode == Activity.RESULT_OK) {
+                    // Get the device MAC address
+                    String address = data.getExtras()
+                            .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+                    // Get the BLuetoothDevice object
+                    BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+                    // Attempt to connect to the device
+                    mService.connect(device);
+                }
+                break;
+            case REQUEST_ENABLE_BT:
+                // When the request to enable Bluetooth returns
+                if (resultCode == Activity.RESULT_OK) {
+//                setupChat();
+                    Toast.makeText(getContext(), "蓝牙已打开", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "蓝牙没有打开", Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
+                }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
