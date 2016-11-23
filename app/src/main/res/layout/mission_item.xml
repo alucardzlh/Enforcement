@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/tTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="江西智容科技有限公司江西智容科技有限公司江西智容科技有限公司江西智容科技有" />
+
+            <TextView
+                android:id="@+id/add"
+
+                style="@style/sTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_marginTop="10dp"
+                android:text="江西省南昌市高新技术产业开发区高新区高新二路建昌工业园金庐软件园海外大厦北楼306室海外大厦北楼306室海外大厦北楼306室" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/state"
+                style="@style/sTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="待检查"
+                android:textColor="@color/red"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"
+               />
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="导航"
+                android:id="@+id/appCompatButton3" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

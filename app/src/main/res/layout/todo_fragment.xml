@@ -10,13 +10,39 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="待办任务"
+                style="@style/TextStyle"
+                android:id="@+id/todomission"
+                />
+            <android.support.v7.widget.AppCompatButton
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="完成任务"
+                style="@style/TextStyle"
+                android:id="@+id/complete"
+                />
+        </LinearLayout>
+
         <android.support.v7.widget.AppCompatEditText
+            android:layout_marginTop="100dp"
             android:id="@+id/info"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:background="@color/huiwhite"
             android:gravity="top|left"
-            android:hint="表单数据信息" />
+            android:hint="表单数据信息"
+            android:textSize="50px"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,20 +54,23 @@
                 android:id="@+id/go"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="走纸" />
+                android:text="走纸"
+                android:visibility="gone"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="打印" />
+                android:text="打印"
+                android:visibility="gone"/>
 
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="连接设备" />
+                android:text="连接设备"
+                android:visibility="gone"/>
         </LinearLayout>
 
     </LinearLayout>

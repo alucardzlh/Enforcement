@@ -19,14 +19,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.zhirongkeji.enforcement.Activitys.CompleteList;
 import com.zhirongkeji.enforcement.Activitys.DeviceListActivity;
 import com.zhirongkeji.enforcement.Activitys.MainActivity;
+import com.zhirongkeji.enforcement.Activitys.SubmitActivity;
+import com.zhirongkeji.enforcement.Activitys.TodoList;
 import com.zhirongkeji.enforcement.R;
 import com.zhirongkeji.enforcement.Services.BluetoothService;
 import com.zhirongkeji.enforcement.Utils.PicFromPrintUtils;
 
 import java.io.UnsupportedEncodingException;
 
+import static android.R.attr.breadCrumbShortTitle;
 import static android.R.attr.button;
 import static com.zhirongkeji.enforcement.Activitys.MainActivity.REQUEST_CONNECT_DEVICE;
 import static com.zhirongkeji.enforcement.Activitys.MainActivity.REQUEST_ENABLE_BT;
@@ -35,7 +39,7 @@ import static com.zhirongkeji.enforcement.Activitys.MainActivity.mBluetoothAdapt
 /**
  * Created by zhirongkeji on 2016/11/19.
  * <p>
- * 查询界面
+ * 反馈界面
  */
 
 public class TodoFragment extends Fragment implements View.OnClickListener {
@@ -47,7 +51,7 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
     public static BluetoothService mService = null;
     // Name of the connected device
     public static String mConnectedDeviceName = null;
-    public static Button submit, go, link;
+    public static Button submit, go, link,dbrw,wcrw;
     private EditText info;
 
 
@@ -71,6 +75,8 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
         submit.setOnClickListener(this);
         go.setOnClickListener(this);
         link.setOnClickListener(this);
+        v.findViewById(R.id.todomission).setOnClickListener(this);
+        v.findViewById(R.id.complete).setOnClickListener(this);
 
         return v;
     }
@@ -140,6 +146,12 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.link:
                 startActivityForResult(new Intent(getActivity(), DeviceListActivity.class), REQUEST_CONNECT_DEVICE);
+                break;
+            case R.id.todomission:
+                startActivity(new Intent(getContext(), TodoList.class));
+                break;
+            case R.id.complete:
+                startActivity(new Intent(getContext(), CompleteList.class));
                 break;
             default:
                 break;
