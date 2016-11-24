@@ -11,9 +11,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.zhirongkeji.enforcement.R;
-import com.zhirongkeji.enforcement.Utils.WaitDialog;
+import com.zhirongkeji.enforcement.Views.WaitDialog;
 
 /**
  * Created by 章龙海 on 2016/11/19.

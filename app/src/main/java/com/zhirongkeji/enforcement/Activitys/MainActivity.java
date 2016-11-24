@@ -28,6 +28,7 @@ import com.zhirongkeji.enforcement.Fragments.TodoFragment;
 import com.zhirongkeji.enforcement.Fragments.UserFragment;
 import com.zhirongkeji.enforcement.R;
 import com.zhirongkeji.enforcement.Services.BluetoothService;
+import com.zhirongkeji.enforcement.Views.MyViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class MainActivity extends FragmentActivity {
     @ViewInject(R.id.groups)
     RadioGroup rg;
     @ViewInject(R.id.content)
-    private ViewPager mViewPager;
+    private MyViewPager mViewPager;
     @ViewInject(R.id.ewm)
     private ImageView ewm;
     private List<Fragment> Fragments;
@@ -76,7 +77,8 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ViewUtils.inject(this);
-        mViewPager.setCurrentItem(0);
+
+
         initView();
         initControl();
     }
@@ -107,6 +109,8 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void initView() {
+        mViewPager.setCurrentItem(0);
+        //mViewPager.setScanScroll(false);//禁止横滑；
         Fragments = new ArrayList<Fragment>();
         Fragment searchFragment = new SearchFragment();
         Fragment todoFragment = new TodoFragment();
@@ -128,7 +132,7 @@ public class MainActivity extends FragmentActivity {
             }
         };
         mViewPager.setAdapter(FPadapter);
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 switch (position) {
@@ -138,6 +142,7 @@ public class MainActivity extends FragmentActivity {
                         todo_button.setTextColor(getResources().getColor(R.color.bottom));
                         map_button.setTextColor(getResources().getColor(R.color.bottom));
                         user_button.setTextColor(getResources().getColor(R.color.bottom));
+
                         break;
                     case 1:
                         todo_button.setChecked(true);
@@ -145,6 +150,7 @@ public class MainActivity extends FragmentActivity {
                         todo_button.setTextColor(getResources().getColor(R.color.bottom_checked));
                         map_button.setTextColor(getResources().getColor(R.color.bottom));
                         user_button.setTextColor(getResources().getColor(R.color.bottom));
+
                         break;
                     case 2:
                         map_button.setChecked(true);
@@ -152,6 +158,7 @@ public class MainActivity extends FragmentActivity {
                         todo_button.setTextColor(getResources().getColor(R.color.bottom));
                         map_button.setTextColor(getResources().getColor(R.color.bottom_checked));
                         user_button.setTextColor(getResources().getColor(R.color.bottom));
+
                         break;
                     case 3:
                         user_button.setChecked(true);
