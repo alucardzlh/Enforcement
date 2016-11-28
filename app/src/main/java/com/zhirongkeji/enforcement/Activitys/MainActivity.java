@@ -22,10 +22,12 @@ import android.widget.Toast;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.zhirongkeji.enforcement.Entitys.DataManage;
 import com.zhirongkeji.enforcement.Fragments.MapFragment;
 import com.zhirongkeji.enforcement.Fragments.SearchFragment;
 import com.zhirongkeji.enforcement.Fragments.TodoFragment;
 import com.zhirongkeji.enforcement.Fragments.UserFragment;
+import com.zhirongkeji.enforcement.QR_Code.QRCode_util.Util;
 import com.zhirongkeji.enforcement.R;
 import com.zhirongkeji.enforcement.Services.BluetoothService;
 import com.zhirongkeji.enforcement.Views.MyViewPager;
@@ -106,6 +108,8 @@ public class MainActivity extends FragmentActivity {
         //finish();
             return;
         }
+        DataManage.高=Util.getWindowH(this);
+        DataManage.宽=Util.getWindowW(this);
     }
 
     private void initView() {
@@ -202,7 +206,7 @@ public class MainActivity extends FragmentActivity {
             case R.id.user:
                 mViewPager.setCurrentItem(3);
                 break;
-            case R.id.ewm:
+            case R.id.ewm://测试废弃
                 startActivityForResult(new Intent(this, DeviceListActivity.class), REQUEST_CONNECT_DEVICE);
                 break;
         }
@@ -255,5 +259,6 @@ public class MainActivity extends FragmentActivity {
             }
         }
     };
+
 
 }

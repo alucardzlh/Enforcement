@@ -8,6 +8,7 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.WindowManager;
 
 public class Util {
 
@@ -72,5 +73,20 @@ public class Util {
 			e.printStackTrace();
 			return "";
 		}
+	}
+
+
+	public  static int getWindowH(Activity context){
+		WindowManager manager = context.getWindowManager();
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		manager.getDefaultDisplay().getMetrics(outMetrics);
+
+		return outMetrics.heightPixels;
+	}
+	public static int getWindowW(Context context){
+		WindowManager manager = ((Activity)context).getWindowManager();
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		manager.getDefaultDisplay().getMetrics(outMetrics);
+		return outMetrics.widthPixels;
 	}
 }

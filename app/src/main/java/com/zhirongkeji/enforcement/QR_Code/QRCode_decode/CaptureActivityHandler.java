@@ -73,7 +73,7 @@ public final class CaptureActivityHandler extends Handler {
 		switch (message.what) {
 			case R.id.auto_focus:
 				// Log.d(TAG, "Got auto-focus message");
-				// When one auto focus pass finishes, start another. This is the
+				// When one auto focus pass finishes, amap_start another. This is the
 				// closest thing to
 				// continuous AF. It does seem to hunt a bit, but I'm not sure what
 				// else to do.
@@ -100,7 +100,7 @@ public final class CaptureActivityHandler extends Handler {
 				break;
 			case R.id.decode_failed:
 				// We're decoding as fast as possible, so when one decode fails,
-				// start another.
+				// amap_start another.
 				state = State.PREVIEW;
 				CameraManager.get().requestPreviewFrame(decodeThread.getHandler(),
 						R.id.decode);

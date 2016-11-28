@@ -1,6 +1,7 @@
 package com.zhirongkeji.enforcement.Activitys;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
@@ -22,6 +23,8 @@ public class SubmitActivity extends Activity implements View.OnClickListener {
     ImageView returnT;
     @ViewInject(R.id.title)
     TextView title;
+    @ViewInject(R.id.submit)
+    TextView submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class SubmitActivity extends Activity implements View.OnClickListener {
     private void initView() {
         returnT.setVisibility(View.VISIBLE);
         returnT.setOnClickListener(this);
+        submit.setOnClickListener(this);
         title.setText("反馈详情");
     }
 
@@ -41,6 +45,10 @@ public class SubmitActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.returnT:
+                finish();
+                break;
+            case R.id.submit:
+                startActivity(new Intent(this,PrintActivity.class));
                 finish();
                 break;
             default:

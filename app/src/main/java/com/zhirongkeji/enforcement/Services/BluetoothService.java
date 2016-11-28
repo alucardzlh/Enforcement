@@ -197,10 +197,10 @@ public class BluetoothService {
     }
 
     /**
-     * Start the service. Specifically start AcceptThread to begin a
+     * Start the service. Specifically amap_start AcceptThread to begin a
      * session in listening (server) mode. Called by the Activity onResume() */
     public synchronized void start() {
-        if (D) Log.d(TAG, "start");
+        if (D) Log.d(TAG, "amap_start");
 
         // Cancel any thread attempting to make a connection
         if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread = null;}

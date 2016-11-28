@@ -484,7 +484,7 @@ public final class CaptureActivity extends Activity implements
 			// TLD as the scan URL.
 			Message message = Message
 					.obtain(handler, R.id.launch_product_query);
-			// message.obj = sourceUrl.substring(0, end) + "?q=" +
+			// message.obj = sourceUrl.substring(0, amap_end) + "?q=" +
 			// resultHandler.getDisplayContents().toString()
 			// + "&source=zxing";
 			handler.sendMessageDelayed(message, INTENT_RESULT_DURATION);

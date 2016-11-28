@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/yellow"
+    android:background="@drawable/fragment2_bg"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,39 +10,79 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp">
 
-            <android.support.v7.widget.AppCompatButton
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="待办任务"
-                style="@style/TextStyle"
+            <LinearLayout
+
                 android:id="@+id/todomission"
-                />
-            <android.support.v7.widget.AppCompatButton
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="完成任务"
-                style="@style/TextStyle"
+                android:layout_marginLeft="30dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/todo_mission" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="待办任务"
+                    android:textSize="20sp"
+                    android:id="@+id/textView12"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:id="@+id/complete"
-                />
-        </LinearLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="67dp"
+                android:layout_marginStart="67dp"
+                android:orientation="vertical"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/todomission"
+                android:layout_toEndOf="@+id/todomission">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/linearLayout2"
+                    android:layout_toRightOf="@+id/linearLayout2"
+                    android:src="@drawable/complete_but" />
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="历史任务"
+                    android:layout_alignBottom="@+id/textView12"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <android.support.v7.widget.AppCompatEditText
-            android:layout_marginTop="100dp"
             android:id="@+id/info"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:layout_marginTop="100dp"
             android:background="@color/huiwhite"
             android:gravity="top|left"
             android:hint="表单数据信息"
             android:textSize="50px"
-            />
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,14 +95,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="走纸"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="打印"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
 
             <android.support.v7.widget.AppCompatButton
@@ -70,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="连接设备"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>

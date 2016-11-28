@@ -22,6 +22,8 @@ import android.os.Build;
 import android.util.Log;
 
 
+import com.zhirongkeji.enforcement.Activitys.MainActivity;
+import com.zhirongkeji.enforcement.Entitys.DataManage;
 import com.zhirongkeji.enforcement.QR_Code.QRCode_util.Util;
 
 import java.lang.reflect.InvocationTargetException;
@@ -54,8 +56,8 @@ final class CameraConfigurationManager {
 		previewFormatString = parameters.get("preview-format");
 		Log.d(TAG, "Default preview format: " + previewFormat + '/'
 				+ previewFormatString);
-		screenResolution = new Point(Util.getWindowWidthPix(),
-				Util.getWindowHeightPix());
+		screenResolution = new Point(DataManage.宽,
+				DataManage.高);
 		Log.d(TAG, "Screen resolution: " + screenResolution);
 		// 为竖屏添加
 		Point screenResolutionForCamera = new Point();
@@ -304,9 +306,9 @@ final class CameraConfigurationManager {
 		Method downPolymorphic = null;
 		try {
 			downPolymorphic = camera.getClass().getMethod(
-					"setDisplayOrientation", new Class[] { int.class });
+					"setDisplayOrientation", int.class);
 			if (downPolymorphic != null)
-				downPolymorphic.invoke(camera, new Object[] { angle });
+				downPolymorphic.invoke(camera, angle);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {

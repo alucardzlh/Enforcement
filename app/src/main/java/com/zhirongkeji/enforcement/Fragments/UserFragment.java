@@ -31,6 +31,9 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         userMy = (RelativeLayout) v.findViewById(R.id.user_my);
         userAbout = (RelativeLayout) v.findViewById(R.id.user_about);
         userIdea = (RelativeLayout) v.findViewById(R.id.user_idea);
+        userTodo.setOnClickListener(this);
+        userComplete.setOnClickListener(this);
+
         return v;
     }
 
