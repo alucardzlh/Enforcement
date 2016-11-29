@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -60,7 +61,7 @@ public class PrintActivity extends Activity implements View.OnClickListener {
     @ViewInject(R.id.link)
     Button link;
     @ViewInject(R.id.info)
-    EditText info;
+    TextView info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,8 @@ public class PrintActivity extends Activity implements View.OnClickListener {
     private void initView() {
         returnT.setVisibility(View.VISIBLE);
         returnT.setOnClickListener(this);
+        info.setText("┌──────────────────────┐\n"+
+                   "\n└──────────────────────┘"    );
     }
 
     private void initBluetooth() {
@@ -151,7 +154,7 @@ public class PrintActivity extends Activity implements View.OnClickListener {
                 if (TextUtils.isEmpty(info.getText())) {
                     android.widget.Toast.makeText(this, "无打印信息", android.widget.Toast.LENGTH_SHORT).show();
                 } else {
-                    sendMessage(info.getText().toString() + "\n" + "\n" + "\n" + "\n");
+                    sendMessage(info.getText().toString() + "\n" + "\n" );
                 }
                 break;
             case R.id.link:

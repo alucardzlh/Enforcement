@@ -30,11 +30,15 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.Poi;
+import com.amap.api.maps.overlay.PoiOverlay;
 import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.zhirongkeji.enforcement.Entitys.DataManage;
 import com.zhirongkeji.enforcement.R;
+import com.zhirongkeji.enforcement.Views.Toast;
 import com.zhirongkeji.enforcement.Views.WaitDialog;
 
 import java.text.SimpleDateFormat;
@@ -42,13 +46,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.zhirongkeji.enforcement.R.id.result;
+
 /**
  * Created by 章龙海 on 2016/11/19.
  * <p>
  * 地图界面
  */
 
-public class MapFragment extends Fragment implements LocationSource, AMapLocationListener,PoiSearch.OnPoiSearchListener {
+public class MapFragment extends Fragment implements LocationSource, AMapLocationListener, PoiSearch.OnPoiSearchListener {
     WaitDialog wd;
 
 
@@ -85,7 +91,7 @@ public class MapFragment extends Fragment implements LocationSource, AMapLocatio
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //View v = inflater.inflate(R.layout.map_fragment, container, false);
         View v = inflater.inflate(R.layout.map_fragment2, container, false);
         initView(v);
@@ -125,11 +131,6 @@ public class MapFragment extends Fragment implements LocationSource, AMapLocatio
 //        });
 
 
-
-
-
-
-
         return v;
     }
 
@@ -143,19 +144,18 @@ public class MapFragment extends Fragment implements LocationSource, AMapLocatio
             LatLng latLng = new LatLng(lat, lng);
             markerOption = new MarkerOptions();
         }
-            mUiSettings = aMap.getUiSettings();
-            mUiSettings.setCompassEnabled(true);//显示指南针
-            mUiSettings.setScaleControlsEnabled(true);//显示比例尺
-            mUiSettings.setMyLocationButtonEnabled(true);// 是否显示定位按钮
+        mUiSettings = aMap.getUiSettings();
+        mUiSettings.setCompassEnabled(true);//显示指南针
+        mUiSettings.setScaleControlsEnabled(true);//显示比例尺
+        mUiSettings.setMyLocationButtonEnabled(true);// 是否显示定位按钮
 //            //设置缩放级别
-            aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-            aMap.setLocationSource(this);//设置了定位的监听
-            aMap.setMyLocationEnabled(true);//显示定位层并且可以触发定位,默认是flase
+        aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+        aMap.setLocationSource(this);//设置了定位的监听
+        aMap.setMyLocationEnabled(true);//显示定位层并且可以触发定位,默认是flase
 
-       //PoiSearch.Query query = new PoiSearch.Query("绿地外滩公馆", "", cityCode);
+        //PoiSearch.Query query = new PoiSearch.Query("绿地外滩公馆", "", cityCode);
         //poiSearch = new PoiSearch(this, query);
         //poiSearch.setOnPoiSearchListener(this);
-
 
 
     }
@@ -203,13 +203,13 @@ public class MapFragment extends Fragment implements LocationSource, AMapLocatio
 //            if (aMapLocation.getErrorCode() == 0) {
 //                企业位置经纬度
             //GPS定位自己
-            nlng=aMapLocation.getLongitude();
-            nlat=aMapLocation.getLatitude();
+            nlng = aMapLocation.getLongitude();
+            nlat = aMapLocation.getLatitude();
 
 
             //定位成功回调信息，设置相关消息
             aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见官方定位类型表
-            if(!flag){
+            if (!flag) {
                 aMapLocation.setLatitude(lat);//获取纬度
                 aMapLocation.setLongitude(lng);//获取经度
                 MyLocationStyle locationStyle = new MyLocationStyle();
@@ -218,9 +218,9 @@ public class MapFragment extends Fragment implements LocationSource, AMapLocatio
                 locationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));// 设置圆形的填充颜色
                 locationStyle.strokeWidth(0);
                 aMap.setMyLocationStyle(locationStyle);
-            }else{
+            } else {
                 //绘制起点
-                LatLng x = new LatLng(nlat,nlng);//第一个参数是：latitude，第二个参数是longitude
+                LatLng x = new LatLng(nlat, nlng);//第一个参数是：latitude，第二个参数是longitude
                 //添加标记
                 markerOption.position(x);
                 markerOption.title("我在这");
@@ -230,7 +230,7 @@ public class MapFragment extends Fragment implements LocationSource, AMapLocatio
                 markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.amap_start));//设置图标
                 aMap.addMarker(markerOption);
                 //绘制终点
-                LatLng x1 = new LatLng(lat,lng);//第一个参数是：latitude，第二个参数是longitude
+                LatLng x1 = new LatLng(lat, lng);//第一个参数是：latitude，第二个参数是longitude
                 //添加标记
                 markerOption.position(x1);
                 markerOption.title("目的地");
@@ -240,9 +240,9 @@ public class MapFragment extends Fragment implements LocationSource, AMapLocatio
                 markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.amap_end));//设置图标
                 aMap.addMarker(markerOption);
 
-                if(list1t !=null && list1t.size()>0){
-                    for(int y=0;y<list1t.size();y++){
-                        LatLng x12 = new LatLng(list2t.get(y),list1t.get(y));//第一个参数是：latitude，第二个参数是longitude
+                if (list1t != null && list1t.size() > 0) {
+                    for (int y = 0; y < list1t.size(); y++) {
+                        LatLng x12 = new LatLng(list2t.get(y), list1t.get(y));//第一个参数是：latitude，第二个参数是longitude
                         //添加标记
                         markerOption.position(x12);
                         markerOption.title("目的地");
@@ -266,7 +266,7 @@ public class MapFragment extends Fragment implements LocationSource, AMapLocatio
             aMapLocation.getDistrict();//城区信息
             aMapLocation.getStreet();//街道信息
             aMapLocation.getStreetNum();//街道门牌号信息
-            city=aMapLocation.getCityCode();//城市编码
+            city = aMapLocation.getCityCode();//城市编码
             aMapLocation.getAdCode();//地区编码
             // 如果不设置标志位，此时再拖动地图时，它会不断将地图移动到当前的位置
             if (isFirstLoc) {
@@ -287,9 +287,9 @@ public class MapFragment extends Fragment implements LocationSource, AMapLocatio
                         + aMapLocation.getStreet() + ""
                         + aMapLocation.getStreetNum());
 //                    Toast.makeText(getApplicationContext(), buffer.toString(), Toast.LENGTH_LONG).show();GPS定位
-                Text1.setText(DataManage.getMapList.geocodes.get(0).formatted_address+"");
+                Text1.setText(DataManage.getMapList.geocodes.get(0).formatted_address + "");
                 //Toast.makeText(getApplicationContext(),  DataManager.getMapList.geocodes.get(0).formatted_address+"", Toast.LENGTH_LONG).show();//企业经纬度定位
-                com.zhirongkeji.enforcement.Views.Toast.show(DataManage.getMapList.geocodes.get(0).formatted_address+"");
+                com.zhirongkeji.enforcement.Views.Toast.show(DataManage.getMapList.geocodes.get(0).formatted_address + "");
 
                 isFirstLoc = false;
             }
@@ -307,12 +307,70 @@ public class MapFragment extends Fragment implements LocationSource, AMapLocatio
     }
 
     @Override
-    public void onPoiSearched(PoiResult poiResult, int i) {
-
+    public void onPoiSearched(PoiResult result, int rCode) {
+//        //dissmissProgressDialog();// 隐藏对话框
+//        if (rCode == 1000) {
+//            if (result != null && result.getQuery() != null) {// 搜索poi的结果
+//                if (result.getQuery().equals(query)) {// 是否是同一条
+//                   PoiResult poiResult = result;
+//                    // 取得搜索到的poiitems有多少页
+//                    List<PoiItem> poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+//                    List<SuggestionCity> suggestionCities = poiResult
+//                            .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
+//
+//                    if (poiItems != null && poiItems.size() > 0) {
+//                        aMap.clear();// 清理之前的图标
+//                        PoiOverlay poiOverlay = new PoiOverlay(aMap, poiItems);
+//                        poiOverlay.removeFromMap();
+//                        poiOverlay.addToMap();
+//                        poiOverlay.zoomToSpan();
+//                    } else if (suggestionCities != null
+//                            && suggestionCities.size() > 0) {
+//                        showSuggestCity(suggestionCities);
+//                    } else {
+////                        ToastUtil.show(PoiKeywordSearchActivity.this,
+////                                R.string.no_result);
+//                        Toast.show("no_result");
+//                    }
+//                }
+//            } else {
+////                ToastUtil.show(PoiKeywordSearchActivity.this,
+////                        R.string.no_result);
+//                Toast.show("no_result");
+//            }
+//        } else {
+//            //ToastUtil.showerror(this, rCode);
+//            Toast.show(rCode);
+//        }
     }
 
     @Override
-    public void onPoiItemSearched(PoiItem poiItem, int i) {
+    public void onPoiItemSearched(PoiItem item, int rCode) {
+//        if (rCode == 1000) {
+//            if (item != null) {
+//                PoiItem mPoi = item;
+//                detailMarker.setPosition(AMapUtil.convertToLatLng(mPoi.getLatLonPoint()));
+//            }
+//        } else {
+//            ToastUtil.showerror(this, rCode);
+//        }
+    }
 
+    /**
+     * 开始进行poi搜索
+     */
+    protected void doSearchQuery() {
+//        String keyWord = mSearchText.getText().toString().trim();
+//        int currentPage = 0;
+//        PoiSearch.Query query = new PoiSearch.Query(keyWord, "", "南昌市");
+//        query.setPageSize(10);// 设置每页最多返回多少条poiitem
+//        query.setPageNum(currentPage);// 设置查第一页
+//
+//        if (lp != null) {
+//            PoiSearch poiSearch = new PoiSearch(getContext(), query);
+//            poiSearch.setOnPoiSearchListener(this);
+//            poiSearch.setBound(new PoiSearch.SearchBound(lp, 5000, true));//
+//            poiSearch.searchPOIAsyn();// 异步搜索
+//        }
     }
 }

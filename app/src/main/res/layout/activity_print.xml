@@ -4,23 +4,26 @@
     android:layout_height="match_parent"
     android:background="@color/huiwhite"
     android:orientation="vertical">
-
     <include
         layout="@layout/headbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <android.support.v7.widget.AppCompatEditText
+    <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
         android:id="@+id/info"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="0dp"
+        android:layout_weight="13"
         android:background="@color/white"
         android:gravity="top|left"
-        android:hint="请输入信息" />
-
+        android:hint="请输入信息"
+        android:lineSpacingMultiplier="0.5"
+        android:textStyle="bold"
+        android:text=""/>
+<!--android:lineSpacingMultiplier="0.5"-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center">
 
         <android.support.v7.widget.AppCompatButton
