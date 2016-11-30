@@ -8,6 +8,7 @@
         layout="@layout/headbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
     <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
         android:id="@+id/info"
         android:layout_width="match_parent"
@@ -16,10 +17,29 @@
         android:background="@color/white"
         android:gravity="top|left"
         android:hint="请输入信息"
-        android:lineSpacingMultiplier="0.5"
-        android:textStyle="bold"
-        android:text=""/>
-<!--android:lineSpacingMultiplier="0.5"-->
+        android:enabled="false"
+        android:editable="false"
+
+        />
+<!--               (抽)检查2016第0008期
+       \n受检单位：江西智容科技有限公司
+       \n地　　址：红谷滩绿地外滩公馆
+       \n注 册 号：36XXXXXXXXXXXXX
+       \n\n住所或经营场所是否与登记相符
+       \n结果：是
+       \n备注：
+       \n\n证照是否齐全
+       \n结果：是
+       \n备注：
+       \n\n经营范围地址等登记事项是否发生变化
+       \n结果：否
+       \n备注：
+       \n\n检查人员：XXX
+       \n检查时间：2018年8月8日
+       \n\n当事人签章＿＿＿＿＿＿＿＿＿-->
+
+    <!--android:lineSpacingMultiplier="0.5"
+android:textStyle="bold"-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

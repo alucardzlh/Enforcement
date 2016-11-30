@@ -23,6 +23,9 @@ import com.zhirongkeji.enforcement.Utils.PicFromPrintUtils;
 import com.zhirongkeji.enforcement.Views.Toast;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Set;
+
+import static com.zhirongkeji.enforcement.Fragments.TodoFragment.mService;
 
 
 /**
@@ -50,7 +53,7 @@ public class PrintActivity extends Activity implements View.OnClickListener {
     // Key names received from the BluetoothService Handler
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
-
+    private static final String 打印机 = "ULT1131B";
 
     @ViewInject(R.id.returnT)
     ImageView returnT;
@@ -71,15 +74,17 @@ public class PrintActivity extends Activity implements View.OnClickListener {
         go.setOnClickListener(this);
         print.setOnClickListener(this);
         link.setOnClickListener(this);
+
         initBluetooth();
         initView();
+
     }
 
     private void initView() {
         returnT.setVisibility(View.VISIBLE);
         returnT.setOnClickListener(this);
-        info.setText("┌──────────────────────┐\n"+
-                   "\n└──────────────────────┘"    );
+        //info.setText("");//"┌──────────────────────┐\n"+"\n└──────────────────────┘"
+        info.setText(getIntent().getStringExtra("info"));
     }
 
     private void initBluetooth() {
@@ -169,14 +174,25 @@ public class PrintActivity extends Activity implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+        if (mService == null) {
+            mService = new BluetoothService(this, mHandler);
+        }
         if (!mBluetoothAdapter.isEnabled()) {
             //打开蓝牙
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
-        if (mService == null) {
-            mService = new BluetoothService(this, mHandler);
+        else {
+            Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+            for (BluetoothDevice device : pairedDevices) {
+                if(device.getName().equals(打印机)){
+                    //setResult(Activity.RESULT_OK,new Intent().putExtra(EXTRA_DEVICE_ADDRESS,device.getAddress()));
+
+                    mService.connect(mBluetoothAdapter.getRemoteDevice(device.getAddress()));
+                }
+            }
         }
+
     }
 
     @Override

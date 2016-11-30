@@ -34,6 +34,7 @@ import com.zhirongkeji.enforcement.Views.MyViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static com.zhirongkeji.enforcement.Fragments.TodoFragment.mConnectedDeviceName;
 import static com.zhirongkeji.enforcement.Fragments.TodoFragment.mService;
@@ -74,6 +75,10 @@ public class MainActivity extends FragmentActivity {
     // Key names received from the BluetoothService Handler
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
+    private static final String 打印机 = "ULT1131B";
+    // Return Intent extra
+    public static String EXTRA_DEVICE_ADDRESS = "device_address";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,18 +90,31 @@ public class MainActivity extends FragmentActivity {
         initControl();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!mBluetoothAdapter.isEnabled()) {
-            //打开蓝牙
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-        }
-        if (mService == null) {
-            mService = new BluetoothService(this, mHandler);
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        if (mService == null) {
+//            mService = new BluetoothService(this, mHandler);
+//        }
+//        if (!mBluetoothAdapter.isEnabled()) {
+//            //打开蓝牙
+//            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+//        }
+////        else {
+////            Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+////            for (BluetoothDevice device : pairedDevices) {
+////                if(device.getName().equals(打印机)){
+////                   //setResult(Activity.RESULT_OK,new Intent().putExtra(EXTRA_DEVICE_ADDRESS,device.getAddress()));
+////
+////                    mService.connect(mBluetoothAdapter.getRemoteDevice(device.getAddress()));
+////                }
+////            }
+////        }
+//
+//
+//
+//    }
 
     private void initControl() {
         // Get local Bluetooth adapter
@@ -105,11 +123,11 @@ public class MainActivity extends FragmentActivity {
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, "您的设备不支持蓝牙", Toast.LENGTH_SHORT).show();
-        //finish();
+            //finish();
             return;
         }
-        DataManage.高=Util.getWindowH(this);
-        DataManage.宽=Util.getWindowW(this);
+        DataManage.高 = Util.getWindowH(this);
+        DataManage.宽 = Util.getWindowW(this);
     }
 
     private void initView() {
@@ -191,7 +209,7 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-    @OnClick({R.id.search, R.id.todo, R.id.map, R.id.user,R.id.ewm})
+    @OnClick({R.id.search, R.id.todo, R.id.map, R.id.user, R.id.ewm})
     public void onclik(View v) {
         switch (v.getId()) {
             case R.id.search:
@@ -223,16 +241,31 @@ public class MainActivity extends FragmentActivity {
                             //print_connect_btn.setText("已连接:");
                             Toast.makeText(MainActivity.this, "蓝牙已连接" + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                             //print_connect_btn.append(mConnectedDeviceName);
-                            TodoFragment.link.setText("已连接");
+                            try {
+                                TodoFragment.link.setText("已连接");
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
+                            }
                             break;
                         case BluetoothService.STATE_CONNECTING:
                             //print_connect_btn.setText("正在连接...");
-                            TodoFragment.link.setText("正在连接...");
+
+                            try {
+                                TodoFragment.link.setText("正在连接...");
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
+                                com.zhirongkeji.enforcement.Views.Toast.show("正在连接...");
+                            }
                             break;
                         case BluetoothService.STATE_LISTEN:
                         case BluetoothService.STATE_NONE:
                             //print_connect_btn.setText("无连接");
-                            TodoFragment.link.setText("无连接");
+                            try {
+                                TodoFragment.link.setText("无连接");
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
+                                com.zhirongkeji.enforcement.Views.Toast.show("无连接");
+                            }
                             break;
                     }
                     break;
