@@ -3,7 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+<EditText
+    android:id="@+id/det"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:visibility="gone"/>
     <include
         layout="@layout/headbar"
         android:layout_width="match_parent"
@@ -540,6 +544,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/question1"
                     style="@style/TextStyle"
                     android:layout_width="0dp"
                     android:layout_height="58dp"
@@ -568,6 +573,7 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/custom_1"
                     style="@style/TextStyle"
                     android:layout_width="0dp"
                     android:layout_height="58dp"
@@ -596,6 +602,7 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/custom_2"
                     style="@style/TextStyle"
                     android:layout_width="0dp"
                     android:layout_height="58dp"
@@ -625,7 +632,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-
+                    android:id="@+id/custom_3"
                     style="@style/TextStyle"
                     android:layout_width="0dp"
                     android:layout_height="58dp"
